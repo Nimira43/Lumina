@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Poppins, Caveat, VT323 } from 'next/font/google'
 import './globals.css'
+import NavBar from '@/components/nav/NavBar'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -35,7 +36,11 @@ export default function RootLayout({
       lang='en'
       className={`${poppins.variable} ${caveat.variable} ${vt323.variable} h-full antialiased`}
     >
-      <body className='min-h-full flex flex-col'>{children}</body>
+      <body className='min-h-full flex flex-col'>
+        <NavBar />
+        <main className='container mx-auto mt-24'></main>
+        {children}
+      </body>
     </html>
   )
 }
