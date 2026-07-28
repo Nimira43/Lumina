@@ -1,6 +1,7 @@
 import { LiaDoveSolid } from 'react-icons/lia'
 import { buttonVariants } from '@heroui/styles'
 import Link from 'next/link'
+import NavLink from './NavLink'
 
 const navLinks = [
   {
@@ -19,7 +20,7 @@ const navLinks = [
 
 export default function NavBar() {
   return (
-    <header className='p-3 w-full fixed top-0 z-50 bg-main-light/85 shadow'>
+    <header className='p-3 w-full fixed top-0 z-50 bg-light/85 shadow'>
       <div className='flex justify-between items-center px-10 mx-auto gap-6'>
         <Link
           href='/'
@@ -30,13 +31,11 @@ export default function NavBar() {
         </Link>
         <nav className='flex gap-3 text-lg text-dark'>
           {navLinks.map(link => (
-            <Link
+            <NavLink
               key={link.href}
               href={link.href}
-              className='font-medium transitioning hover:text-main'
-            >
-              {link.label}
-            </Link>
+              label={link.label}
+            />
           ))}
         </nav>
         <div className='flex items-center gap-3'>
@@ -51,7 +50,7 @@ export default function NavBar() {
             Login
           </Link>
           <Link
-            href='/login'
+            href='/register'
             className={
               buttonVariants({
                 variant: 'primary'

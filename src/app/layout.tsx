@@ -36,10 +36,11 @@ export default function RootLayout({
       lang='en'
       className={`${poppins.variable} ${caveat.variable} ${vt323.variable} h-full antialiased`}
     >
-      <body className='min-h-full flex flex-col'>
+      <body className='bg-background text-foreground'>
         <NavBar />
-        <main className='container mx-auto mt-24'></main>
-        {children}
+        <main className='container mx-auto mt-24'>
+          {children}
+        </main>
       </body>
     </html>
   )
