@@ -1,17 +1,17 @@
 'use client'
 
 import { Button, Card, CardHeader, FieldError, Input, TextField } from '@heroui/react'
-import { LoginSchema, loginSchema } from '@/lib/loginSchema'
+import { RegisterSchema, registerSchema } from '@/lib/registerSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { LiaDoveSolid } from 'react-icons/lia'
 
-export default function LoginForm() {
-  const { register, handleSubmit, formState: {errors} } = useForm<LoginSchema>({
-    resolver: zodResolver(loginSchema)
+export default function RegisterForm() {
+  const { register, handleSubmit, formState: {errors} } = useForm<RegisterSchema>({
+    resolver: zodResolver(registerSchema)
   })
  
-  const onSubmit = (data: LoginSchema) => {
+  const onSubmit = (data: RegisterSchema) => {
     console.log({data})
   }
  
@@ -22,11 +22,11 @@ export default function LoginForm() {
           <div className='flex flex-row items-center gap-1 text-main'>
             <LiaDoveSolid size={30} />
             <h1 className='text-3xl font-bold logo'>
-              Login
+              Register
             </h1>
           </div>
           <p className='text-foreground/60'>
-            Welcome back to Lumina
+            Welcome to Lumina
           </p>
         </div>
       </CardHeader>
@@ -34,6 +34,19 @@ export default function LoginForm() {
         onSubmit={handleSubmit(onSubmit)}  
         className='flex flex-col gap-4 px-6 py-4'
       >
+        <TextField
+          defaultValue=''
+          aria-label='namel'
+          isInvalid={!!errors.name}
+        >
+          <Input
+            placeholder='Enter your name'  
+            {...register('name')}
+          />
+          <FieldError>
+            {errors.name?.message}
+          </FieldError>
+        </TextField>
         <TextField
           defaultValue=''
           aria-label='email'
@@ -61,11 +74,25 @@ export default function LoginForm() {
             {errors.password?.message}
           </FieldError>
         </TextField>
+        <TextField
+          defaultValue=''
+          aria-label='confirmPassword'
+          isInvalid={!!errors.confirmPassword}
+        >
+          <Input
+            type='password'
+            placeholder='Confirm your password'
+            {...register('confirmPassword')}
+          />
+          <FieldError>
+            {errors.confirmPassword?.message}
+          </FieldError>
+        </TextField>
         <Button
           type='submit'
           className='w-full'
         >
-          Login          
+          Register          
         </Button>
       </form>
     </Card>    
