@@ -5,14 +5,35 @@ import { RegisterSchema, registerSchema } from '@/lib/registerSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { LiaDoveSolid } from 'react-icons/lia'
+import { authClient } from '@/lib/auth-client'
+import { useRouter } from 'next/navigation'
 
 export default function RegisterForm() {
-  const { register, handleSubmit, formState: {errors} } = useForm<RegisterSchema>({
+  const router = useRouter()
+  const {
+    register,
+    handleSubmit,
+    formState: {
+      errors,
+      isSubmitting
+    }
+  } = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema)
   })
  
-  const onSubmit = (data: RegisterSchema) => {
-    console.log({data})
+  const onSubmit = async (data: RegisterSchema) => {
+    await authClient.signUp.email({
+      email: data.email,
+      password: data.password,
+      name: data.name
+    }, {
+      onSuccess: () => {
+        router.push('/members')
+      },
+      onError: (ctx) => {
+        console.log(ctx.error.message)
+      }
+    })
   }
  
   return (
@@ -89,6 +110,7 @@ export default function RegisterForm() {
           </FieldError>
         </TextField>
         <Button
+          isPending={isSubmitting}
           type='submit'
           className='w-full'
         >
