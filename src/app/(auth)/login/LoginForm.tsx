@@ -5,14 +5,34 @@ import { LoginSchema, loginSchema } from '@/lib/loginSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { LiaDoveSolid } from 'react-icons/lia'
+import { authClient } from '@/lib/auth-client'
+import { useRouter } from 'next/navigation'
 
 export default function LoginForm() {
-  const { register, handleSubmit, formState: {errors} } = useForm<LoginSchema>({
+  const router = useRouter()
+  const {
+    register,
+    handleSubmit,
+    formState: {
+      errors,
+      isSubmitting
+    }
+  } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema)
   })
  
-  const onSubmit = (data: LoginSchema) => {
-    console.log({data})
+  const onSubmit = async (data: LoginSchema) => {
+    await authClient.signIn.email({
+      email: data.email,
+      password: data.password
+    }, {
+      onSuccess: () => {
+        router.push('/members')
+      },
+      onError: (ctx) => {
+        console.log(ctx.error.message)
+      }
+    })
   }
  
   return (
@@ -62,6 +82,7 @@ export default function LoginForm() {
           </FieldError>
         </TextField>
         <Button
+          isPending={isSubmitting}
           type='submit'
           className='w-full'
         >

@@ -110,7 +110,7 @@ export default function RegisterForm() {
           </FieldError>
         </TextField>
         <Button
-          isPending={isSubmitting}
+          isPending={isSubmitting }
           type='submit'
           className='w-full'
         >
