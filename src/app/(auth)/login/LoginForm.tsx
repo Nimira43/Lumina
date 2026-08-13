@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Card, CardHeader, FieldError, Input, TextField } from '@heroui/react'
+import { Button, Card, CardHeader, FieldError, Input, TextField, toast } from '@heroui/react'
 import { LoginSchema, loginSchema } from '@/lib/loginSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -28,9 +28,10 @@ export default function LoginForm() {
     }, {
       onSuccess: () => {
         router.push('/members')
+        router.refresh()
       },
       onError: (ctx) => {
-        console.log(ctx.error.message)
+        toast.danger(ctx.error.message)
       }
     })
   }

@@ -1,10 +1,25 @@
+import { getCurrentUser } from '@/lib/auth'
+import { Surface } from '@heroui/react'
 import Link from 'next/link'
 
-export default function MembersPage() {
+export default async function MembersPage() {
+  const user = await getCurrentUser()
+  
   return (
     <div>
-      <h3 className='text-2xl'>Members</h3>
-      <Link href='/'>Go Back</Link>
+      <h3 className='text-2xl'>
+        Members
+      </h3>
+      <Link href='/'>
+        Go Back
+      </Link>
+      {user ? (
+        <Surface className='p-4 rounded'>
+          <pre>{JSON.stringify(user, null, 2)}</pre>
+        </Surface>
+      ) : (
+        <div>Not signed in.</div>
+      )}
     </div>
   )
 }
