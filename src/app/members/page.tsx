@@ -1,25 +1,17 @@
-import { getCurrentUser } from '@/lib/auth'
-import { Surface } from '@heroui/react'
-import Link from 'next/link'
+import { getMembers } from '@/server/actions/members'
 
 export default async function MembersPage() {
-  const user = await getCurrentUser()
+  const members = await getMembers()
   
   return (
     <div>
-      <h3 className='text-2xl'>
-        Members
-      </h3>
-      <Link href='/'>
-        Go Back
-      </Link>
-      {user ? (
-        <Surface className='p-4 rounded'>
-          <pre>{JSON.stringify(user, null, 2)}</pre>
-        </Surface>
-      ) : (
-        <div>Not signed in.</div>
-      )}
+      <ul>
+        {members && members.map(member => (
+          <li key={member.id}>
+            {member.name}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
