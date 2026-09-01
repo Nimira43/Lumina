@@ -8,6 +8,8 @@ export default async function MemberDetailedPage(props: PageProps<'/members/[use
   if (!member) return notFound()  
 
   return (
-    <div>{member.name}</div>
+    <div>
+      {member.description}
+    </div>
   )
 }

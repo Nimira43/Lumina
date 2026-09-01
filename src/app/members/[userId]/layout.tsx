@@ -5,6 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ReactNode } from 'react'
+import MemberNav from './MemberNav'
+import SectionTitle from './SectionTitle'
 
 export default async function Layout({
   children,
@@ -21,7 +23,7 @@ export default async function Layout({
   return (
     <div className='grid grid-cols-12 gap-5 h-[80vh]'>
       <div className='col-span-3'>
-        <Card className='w-full mt-10 items-center h-[80vh]'>
+        <Card className='w-full mt-3 items-center h-[80vh]'>
           <Image
             alt={member.name}
             width={500}
@@ -29,11 +31,11 @@ export default async function Layout({
             loading='eager'
             sizes='(max-width: 768px) 100vw, 33vw'
             src={member?.image || '/images/user.png'}
-            className='relative aspect-ratio object-cover rounded'
+            className='relative aspect-ratio object-cover rounded-full p-6'
           />
           <Card.Content>
             <div className='flex flex-col items-center'>
-              <div className='text-2xl'>
+              <div className='text-xl'>
                 {member.name}, {calculateAge(member.dateOfBirth)}
               </div>
               <div className='text-sm text-foreground/50'>
@@ -41,9 +43,7 @@ export default async function Layout({
               </div>
             </div>
             <Separator />
-            <div>
-              Member nav goes here
-            </div>
+            <MemberNav userId={member.userId} />
           </Card.Content>
           <Card.Footer className='w-full'>
             <Link
@@ -59,9 +59,9 @@ export default async function Layout({
         </Card>
       </div>
       <div className='col-span-9'>
-        <Card className='w-full mt-10 h-[80vh]'>
+        <Card className='w-full mt-3 h-[80vh]'>
           <Card.Header>
-            Section title
+            <SectionTitle />
           </Card.Header>
           <Separator />
           <Card.Content>
