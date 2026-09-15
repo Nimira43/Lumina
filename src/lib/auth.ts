@@ -23,6 +23,16 @@ export async function getCurrentUser() {
   const session = await auth.api.getSession({
     headers: await headers()
   })
-
   return session?.user
 }
+
+export async function requireAuthUser() {
+  const session = await auth.api.getSession({
+    headers: await headers()
+  })
+
+  if (!session) throw new Error('Unauthorised.')
+
+  return session.user
+}
+
