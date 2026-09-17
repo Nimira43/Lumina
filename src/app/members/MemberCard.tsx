@@ -3,6 +3,7 @@ import { Member } from '../../../generated/prisma/client'
 import { Card, CardFooter } from '@heroui/react'
 import Image from 'next/image'
 import { calculateAge } from '@/lib/utils'
+import LikeButton from '@/components/LikeButton'
 
 type Props = {
   member: Member
@@ -21,6 +22,12 @@ export default function MemberCard({member}: Props) {
           src={member?.image || '/images/user.png'}
           className='relative aspect-ratio object-cover rounded'
         />
+        <div className='absolute top-3 right-3 z-50'>
+          <LikeButton
+            targetUserId={member.userId}
+            hasLiked={false}
+          ></LikeButton>
+        </div>
         <CardFooter className='flex w-full justify-start absolute bottom-0 z-10 overflow-hidden bg-linear-to-t from-dark'>
           <div className='flex flex-col text-light p-2'>
             <span className='font-medium'>
