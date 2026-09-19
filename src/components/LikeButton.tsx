@@ -7,7 +7,7 @@ import { PiSpinner } from "react-icons/pi"
 
 type Props = {
   targetUserId: string
-  hasLiked: boolean
+  hasLiked?: boolean
 }
 
 export default function LikeButton({ targetUserId, hasLiked}: Props) {

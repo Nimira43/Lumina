@@ -7,9 +7,12 @@ import LikeButton from '@/components/LikeButton'
 
 type Props = {
   member: Member
+  likeIds?: string[]
 }
 
-export default function MemberCard({member}: Props) {
+export default function MemberCard({ member, likeIds }: Props) {
+  const hasLiked = likeIds?.includes(member.userId)
+
   return (
     <Link href={`/members/${member.userId}`}>
       <Card className='p-0 transition-all duration-300 hover:scale-105 hover:shadow-xl'>
@@ -25,7 +28,7 @@ export default function MemberCard({member}: Props) {
         <div className='absolute top-3 right-3 z-50'>
           <LikeButton
             targetUserId={member.userId}
-            hasLiked={false}
+            hasLiked={hasLiked}
           ></LikeButton>
         </div>
         <CardFooter className='flex w-full justify-start absolute bottom-0 z-10 overflow-hidden bg-linear-to-t from-dark'>
