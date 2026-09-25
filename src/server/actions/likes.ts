@@ -48,6 +48,7 @@ export async function fetchCurrentUserLikeIds() {
     return likes.map(like => like.targetUserId)
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 
@@ -66,7 +67,8 @@ export async function fetchLikedMembers(type = 'target') {
         return []
     }
   } catch (error) {
-    console.log(error)    
+    console.log(error)  
+    throw error
   }
 }
 
