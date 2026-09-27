@@ -1,7 +1,7 @@
 'use client'
 
 import { useTransition, type Key } from 'react'
-import { Tabs } from '@heroui/react'
+import { Spinner, Tabs } from '@heroui/react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Member } from '../../../generated/prisma/client'
 import MemberCard from '../members/MemberCard'
@@ -38,23 +38,32 @@ export default function ListTabs({ members, likeIds }: Props) {
         selectedKey={currentTab}
         onSelectionChange={id => handleTabChange(id)}
       >
-        <Tabs.ListContainer className='w-fit'>
-          <Tabs.List
-            aria-label='Like tabs'
-            className='p-1.5 gap-1'
-          >
-            {tabs.map(tab => (
-              <Tabs.Tab
+        <div className='flex item-center'>
+          <Tabs.ListContainer className='w-fit'>
+            <Tabs.List
+              aria-label='Like tabs'
+              className='p-1.5 gap-1'
+              >
+              {tabs.map(tab => (
+                <Tabs.Tab
                 key={tab.id}
                 id={tab.id}
                 className='whitespace-nowrap px-5 py-2 text-muted data-selected:text-white'
-              >
-                {tab.label}
-                <Tabs.Indicator className='bg-accent' />
-              </Tabs.Tab>
-            ))}
-          </Tabs.List>
-        </Tabs.ListContainer>
+                >
+                  {tab.label}
+                  <Tabs.Indicator className='bg-accent' />
+                </Tabs.Tab>
+              ))}
+            </Tabs.List>
+          </Tabs.ListContainer>
+          {isPending && (
+            <Spinner
+            size='md'
+            color='accent'
+            className='ml-2 mt-2'
+            />
+          )}
+        </div>
 
         {tabs.map(tab => (
           <Tabs.Panel

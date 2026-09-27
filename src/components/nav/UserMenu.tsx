@@ -29,7 +29,7 @@ export default function UserMenu({user}: Props) {
         <Avatar>
           <Avatar.Image
             alt={user.name}
-            src='/user.jpg'
+            src={user.image || 'images/user.png'}
           />
           <Avatar.Fallback>
             {user.name.charAt(0)}
