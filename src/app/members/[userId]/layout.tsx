@@ -7,6 +7,13 @@ import { notFound } from 'next/navigation'
 import { ReactNode } from 'react'
 import MemberNav from './MemberNav'
 import SectionTitle from './SectionTitle'
+import { getCurrentUser } from '@/lib/auth'
+
+export const sections = [
+  {name: 'Profile', path: '', segment: null},
+  {name: 'Photo', path: '/photos', segment: 'photos'},
+  {name: 'Chat', path: '/chat', segment: 'chat'},
+]
 
 export default async function Layout({
   children,
@@ -17,6 +24,8 @@ export default async function Layout({
 }) {
   const { userId } = await params
   const member = await getMemberByUserId(userId)
+  const currentUser = await getCurrentUser()
+  const isCurrentUser = currentUser?.id === userId
 
   if (!member) return notFound()
   
@@ -43,7 +52,14 @@ export default async function Layout({
               </div>
             </div>
             <Separator />
-            <MemberNav userId={member.userId} />
+            <MemberNav
+              userId={member.userId}
+              sections={
+                isCurrentUser
+                  ? sections.filter(x => x.segment !== 'chat')
+                  : sections
+              }
+            />
           </Card.Content>
           <Card.Footer className='w-full'>
             <Link
@@ -61,7 +77,7 @@ export default async function Layout({
       <div className='col-span-9'>
         <Card className='w-full mt-3 h-[80vh]'>
           <Card.Header>
-            <SectionTitle />
+            <SectionTitle sections={sections}/>
           </Card.Header>
           <Separator />
           <Card.Content>
