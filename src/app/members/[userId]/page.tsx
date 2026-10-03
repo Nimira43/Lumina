@@ -15,7 +15,7 @@ export default async function MemberDetailedPage(props: PageProps<'/members/[use
   return (
     <div>
       {isCurrentUser ? (
-        <ProfileForm />
+        <ProfileForm member={member} />
       ) : (
           <div>
             {member.description}

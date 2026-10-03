@@ -77,7 +77,7 @@ export default async function Layout({
       <div className='col-span-9'>
         <Card className='w-full mt-3 h-[80vh]'>
           <Card.Header>
-            <SectionTitle sections={sections}/>
+            <SectionTitle sections={sections} />
           </Card.Header>
           <Separator />
           <Card.Content>
