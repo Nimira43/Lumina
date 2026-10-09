@@ -1,8 +1,9 @@
 'use client'
 
+import { updateProfile } from '@/server/actions/members'
 import { Member } from '../../../../generated/prisma/client'
 import { profileEditSchema, ProfileEditSchema } from '@/lib/profileEditSchema'
-import { Button, FieldError, Input, Label, TextArea, TextField } from '@heroui/react'
+import { Button, FieldError, Input, Label, TextArea, TextField, toast } from '@heroui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
@@ -14,17 +15,26 @@ export default function ProfileForm({ member }: Props) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: {
       errors,
       isSubmitting,
       isDirty
     }
   } = useForm<ProfileEditSchema>({
-    resolver: zodResolver(profileEditSchema)
+    resolver: zodResolver(profileEditSchema),
+    defaultValues: {
+      name: member.name,
+      description: member.description,
+      city: member.city,
+      country: member.country
+    }
   })
 
-  const onSubmit = (data: ProfileEditSchema) => {
-    console.log(data)
+  const onSubmit = async (data: ProfileEditSchema) => {
+    await updateProfile(data)
+    toast.success('Profile has been updated')
+    reset(data)
   }
   
   return (
