@@ -3,8 +3,10 @@
 import { getCurrentUser, requireAuthUser } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { profileEditSchema, ProfileEditSchema } from '@/lib/profileEditSchema'
+import { ActionResult } from '@/lib/types'
 import { revalidatePath } from 'next/cache'
 import { cache } from 'react'
+import { Member } from '../../../generated/prisma/client'
 
 export async function getMembers() {
   const currentUser = await getCurrentUser()
@@ -30,12 +32,17 @@ export const getMemberByUserId = cache(
   }
 )
 
-export async function updateProfile(data: ProfileEditSchema) {
+export async function updateProfile(
+  data: ProfileEditSchema 
+): Promise<ActionResult<Member>> {
   try {
     const user = await requireAuthUser()
     const validated = profileEditSchema.safeParse(data)
 
-    if (!validated.success) throw new Error('Failed validation.')
+    if (!validated.success) return {
+      status: 'error',
+      error: validated.error.issues
+    }
     
     const {name, description, city, country} = validated.data
 
@@ -54,8 +61,13 @@ export async function updateProfile(data: ProfileEditSchema) {
 
     revalidatePath('/members')
     revalidatePath(`/members/${member.userId}`)
+  
+    return {
+      status: 'success',
+      data: member
+    }
   } catch (error) {
-    console.log(error)
-    throw error
+    if (error instanceof Error) return { status: 'error', error: error.message }
+    else return { status: 'error', error: 'Something went wrong.' }
   }
 }

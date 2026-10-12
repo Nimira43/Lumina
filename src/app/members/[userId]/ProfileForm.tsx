@@ -5,7 +5,7 @@ import { Member } from '../../../../generated/prisma/client'
 import { profileEditSchema, ProfileEditSchema } from '@/lib/profileEditSchema'
 import { Button, FieldError, Input, Label, TextArea, TextField, toast } from '@heroui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { Path, useForm } from 'react-hook-form'
 
 type Props = {
   member: Member
@@ -15,6 +15,7 @@ export default function ProfileForm({ member }: Props) {
   const {
     register,
     handleSubmit,
+    setError,
     reset,
     formState: {
       errors,
@@ -32,9 +33,20 @@ export default function ProfileForm({ member }: Props) {
   })
 
   const onSubmit = async (data: ProfileEditSchema) => {
-    await updateProfile(data)
-    toast.success('Profile has been updated')
-    reset(data)
+    const result = await updateProfile(data)
+    
+    if (result.status === 'success') {      
+      toast.success('Profile has been updated')
+      reset(data)
+    } else {
+      if (Array.isArray(result.error)) {
+        result.error.forEach(e => {
+          setError(e.path as Path<unknown>, {message: e.message})
+        })
+      } else {
+        toast.danger(result.error)
+      } 
+    }
   }
   
   return (
