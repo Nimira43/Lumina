@@ -71,3 +71,12 @@ export async function updateProfile(
     else return { status: 'error', error: 'Something went wrong.' }
   }
 }
+
+export async function getMemberPhotosByUserId(userId: string) {
+  const member = await prisma.member.findUnique({
+    where: { userId },
+    select: { photos: true}
+  })
+
+  return member?.photos
+}
