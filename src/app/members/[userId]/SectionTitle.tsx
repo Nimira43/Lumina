@@ -1,6 +1,7 @@
 'use client'
 
 import { useSelectedLayoutSegment } from 'next/navigation'
+import PhotoUpload from './photos/PhotoUpload'
 
 type Props = {
   sections: {
@@ -8,15 +9,19 @@ type Props = {
     name: string,
     path: string
   }[]
+  isOwner: boolean
 }
 
-export default function SectionTitle({sections}: Props) {
+export default function SectionTitle({sections, isOwner}: Props) {
   const active = useSelectedLayoutSegment()
   const title = sections.find(x => x.segment === active)?.name ?? ''
 
   return (
-    <h2 className='text-xl font-medium capitalize text-main'>
-      {title}
-    </h2>
+    <div className='flex items-center justify-between'>
+      <h2 className='text-xl font-medium capitalize text-main'>
+        {title}
+      </h2>
+      {title === 'Photos' && isOwner && <PhotoUpload />}
+    </div>
   )
 }

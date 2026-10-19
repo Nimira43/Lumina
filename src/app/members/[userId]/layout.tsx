@@ -11,7 +11,7 @@ import { getCurrentUser } from '@/lib/auth'
 
 export const sections = [
   {name: 'Profile', path: '', segment: null},
-  {name: 'Photo', path: '/photos', segment: 'photos'},
+  {name: 'Photos', path: '/photos', segment: 'photos'},
   {name: 'Chat', path: '/chat', segment: 'chat'},
 ]
 
@@ -77,7 +77,10 @@ export default async function Layout({
       <div className='col-span-9'>
         <Card className='w-full mt-3 h-[80vh]'>
           <Card.Header>
-            <SectionTitle sections={sections} />
+            <SectionTitle
+              sections={sections}
+              isOwner={isCurrentUser}
+            />
           </Card.Header>
           <Separator />
           <Card.Content>
