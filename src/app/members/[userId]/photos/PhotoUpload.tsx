@@ -12,7 +12,7 @@ export default function PhotoUpload() {
         console.log(result)
       }}
       signatureEndpoint='/api/sign-image'
-      className='flex items-center bg-accent text-white gap-2 rounded py-2 px-4 hover:bg-secondary/70 cursor-pointer'
+      className='flex items-center bg-accent text-white gap-2 rounded py-2 px-4 hover:bg-accent/70 cursor-pointer'
     >
       <HiPhoto size={28} />
       Upload New Image
