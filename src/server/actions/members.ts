@@ -80,3 +80,22 @@ export async function getMemberPhotosByUserId(userId: string) {
 
   return member?.photos
 }
+
+export async function addImage(url: string, publicId: string) {
+  try {
+    const user = await requireAuthUser()
+
+    const member = await prisma.member.update({
+      where: { userId: user.id },
+      data: {
+        photos: {
+          create: [{url, publicId}]
+        }
+      }
+    })
+
+    revalidatePath(`/members/${member.userId}/photos`)
+  } catch (error) {
+    console.log(error)
+    throw error
+  }}
