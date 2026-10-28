@@ -1,10 +1,10 @@
 import DeleteButton from '@/components/DeleteButton'
+import MemberImage from '@/components/MemberImage'
 import StarButton from '@/components/StarButton'
 import { getCurrentUser } from '@/lib/auth'
 import { getMemberPhotosByUserId } from '@/server/actions/members'
-import Image from 'next/image'
 
-export default async function PhotosPage(props: PageProps<"/members/[userId]/photos">) {
+export default async function PhotosPage(props: PageProps<'/members/[userId]/photos'>) {
   const { userId } = await props.params
   const photos = await getMemberPhotosByUserId(userId)  
   const currentUser = await getCurrentUser()
@@ -17,16 +17,7 @@ export default async function PhotosPage(props: PageProps<"/members/[userId]/pho
           key={photo.id}
           className='relative'
         >
-          <Image 
-            alt='Image of member'
-            width={500}
-            height={500}
-            loading='eager'
-            sizes='(max-width: 768px) 100vw, 33vw'
-            src={photo.url}
-            className='relative aspect-ratio object-cover rounded'
-          />
-
+          <MemberImage photo={photo} />
           {isOwner && (
             <>
               <div className='absolute top-3 left-3 z-50'>
