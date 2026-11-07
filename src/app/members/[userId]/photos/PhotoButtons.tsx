@@ -5,7 +5,7 @@ import { Photo } from '../../../../../generated/prisma/client'
 import StarButton from '@/components/StarButton'
 import DeleteButton from '@/components/DeleteButton'
 import { useTransition } from 'react'
-import { setMainImage } from '@/server/actions/members'
+import { deleteImage, setMainImage } from '@/server/actions/members'
 
 type Props = {
   photo: Photo
@@ -14,10 +14,19 @@ type Props = {
 
 export default function PhotoButtons({ photo, user }: Props) {
   const [isMainPending, startMainTransition] = useTransition() 
+  const [isDeletePending, startDeleteTransition] = useTransition() 
  
   const onSetMain = (photo: Photo) => {
     startMainTransition(() => {
       setMainImage(photo)
+    })
+  }
+
+  const onDeleteImage = (photo: Photo) => {
+    if (photo.url === user.image) return null
+    
+    startDeleteTransition(() => {
+      deleteImage(photo)
     })
   }
 
@@ -32,9 +41,13 @@ export default function PhotoButtons({ photo, user }: Props) {
           loading={isMainPending}
         />
       </div>
-      <div className='absolute top-3 right-3 z-50'>
+      <div
+        onClick={() => onDeleteImage(photo) }
+        className='absolute top-3 right-3 z-50'
+      >
         <DeleteButton 
-          loading={false}
+          disabled={photo.url === user.image}
+          loading={isDeletePending}
         />
       </div>
     </>
