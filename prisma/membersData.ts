@@ -11,7 +11,7 @@ export const membersData = [
       "Friendly and outdoorsy, I love long walks, photography, and discovering new coffee spots. Always up for a chat and meeting new people.",
     city: "Manchester",
     country: "United Kingdom",
-    image: "https://randomuser.me/api/portraits/women/41.jpg",
+    image: "https://randomuser.me/api/portraits/women/37.jpg",
   },
   {
     email: "karen@test.com",
@@ -25,7 +25,7 @@ export const membersData = [
       "I work in digital marketing and spend my free time reading, cooking, and exploring local markets. Love meeting people with good humour.",
     city: "Brighton",
     country: "United Kingdom",
-    image: "https://randomuser.me/api/portraits/women/42.jpg",
+    image: "https://randomuser.me/api/portraits/women/47.jpg",
   },
   {
     email: "margo@test.com",
@@ -53,7 +53,7 @@ export const membersData = [
       "Teacher, book lover, and part-time baker. I enjoy quiet evenings, good films, and spontaneous weekend trips.",
     city: "Cardiff",
     country: "United Kingdom",
-    image: "https://randomuser.me/api/portraits/women/44.jpg",
+    image: "https://randomuser.me/api/portraits/women/40.jpg",
   },
   {
     email: "ruthie@test.com",
