@@ -1,3 +1,5 @@
+'use server'
+
 import { chatSchema, ChatSchema } from '@/lib/chatSchema'
 import { ActionResult } from '@/lib/types'
 import { Message } from '../../../generated/prisma/client'
@@ -11,7 +13,10 @@ export async function createMessage(recipientUserId: string, data: ChatSchema): 
     const user = await requireAuthUser()
     const validated = chatSchema.safeParse(data)
 
-    if (!validated.success) return { status: 'error', error: validated.error.issues }
+    if (!validated.success) return {
+      status: 'error',
+      error: validated.error.issues[0].message
+    }
 
     const { text } = validated.data
 
