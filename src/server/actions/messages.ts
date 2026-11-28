@@ -39,3 +39,51 @@ export async function createMessage(recipientUserId: string, data: ChatSchema): 
     }
   }
 }
+
+export async function getMessageThread(recipientId: string) {
+  try {
+    const user = await requireAuthUser()
+
+    return prisma.message.findMany({
+      where: {
+        OR: [
+          {
+            senderId: user.id,
+            recipientId,
+            senderDeleted: false
+          },
+          {
+            senderId: recipientId,
+            recipientId: user.id,
+            recipientDeleted: false
+          }
+        ]
+      },
+      orderBy: {
+        created: 'desc'
+      },
+      select: {
+        id: true,
+        text: true,
+        created: true,
+        dateRead: true,
+        sender: {
+          select: {
+            userId: true,
+            name: true,
+            image: true
+          }
+        },
+        recipient: {
+          select: {
+            userId: true,
+            name: true,
+            image: true
+          }
+        },
+      }
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
